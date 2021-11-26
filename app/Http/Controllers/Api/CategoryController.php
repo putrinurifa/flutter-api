@@ -19,7 +19,7 @@ class CategoryController extends Controller
     {
        return CategoryResource::collection(Category::select('id', 'name')->get());
     }
-    
+
     public function index_v2()
     {
        return Category::select('id', 'name' )->get();
@@ -32,7 +32,9 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        return new CategoryResource(Category::create($request->validated()));
+        $category = auth()->user()->categories()->create($request->validate());
+
+        return new CategoryResource($category);
     }
 
     /**
